@@ -641,13 +641,13 @@
 
                 const csvString = [headers.join(','), ...dataToCopy].join('\n');
 
-                // Store data in localStorage for csv-analyzer-vanilla.html
+                // Encode data to base64 and pass via URL parameter
                 try {
-                    localStorage.setItem('csv_data_from_c3', csvString);
-                    localStorage.setItem('csv_data_from_c3_timestamp', Date.now().toString());
+                    const encodedData = btoa(unescape(encodeURIComponent(csvString)));
+                    const url = `https://incsvdev.carrd.co/?data=${encodeURIComponent(encodedData)}&timestamp=${Date.now()}`;
 
-                    // Open csv-analyzer-vanilla.html
-                    window.open('csv-analyzer-vanilla.html', '_blank');
+                    // Open external editor at https://incsvdev.carrd.co/ with data in URL
+                    window.open(url, '_blank');
 
                     showSuccessMessage("Data przekazana do edytora!");
                 } catch (err) {
